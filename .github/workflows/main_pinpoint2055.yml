@@ -21,10 +21,10 @@ jobs:
           dotnet-version: '9.x'
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release api/api.sln
+        run: dotnet build --configuration Release ./api/api.sln  # Specify the solution file path
 
       - name: dotnet publish
-        run: dotnet publish --configuration Release --output "${{env.DOTNET_ROOT}}/myapp" api/api.sln  # Specify the solution file path
+        run: dotnet publish --configuration Release --output "${{env.DOTNET_ROOT}}/myapp" ./api/api.sln  # Specify the solution file path
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -61,4 +61,4 @@ jobs:
         with:
           app-name: 'pinpoint2055'
           slot-name: 'Production'
-          package: .
+          package: ${{ env.DOTNET_ROOT }}/myapp # Ensure this points to the correct path
